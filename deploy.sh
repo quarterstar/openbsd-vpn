@@ -163,6 +163,10 @@ if [[ -z $provider || -z $wg_pub_key || -z $api_key || -z $plan || -z $label ]];
   usage
 fi
 
+if [[ -n ".venv" ]]; then
+    python -m venv ./.venv
+fi
+
 # Path to the virtual environment
 VENV_DIR=".venv"
 
