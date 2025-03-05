@@ -8,6 +8,7 @@ fi
 wg_pub_key=$1
 port=$2
 hosts=$3
+mtu=$4
 
 # Update the system
 pkg_add -u
@@ -23,7 +24,13 @@ cat > /etc/wireguard/wg0.conf <<EOF
 [Interface]
 PrivateKey = $(cat /etc/wireguard/private.key)
 ListenPort = $port
+EOF
 
+if [ -n "${mtu}" ]; then
+    echo "PostUp = ifconfig wg0 mtu ${mtu}\n" >> /etc/wireguard/wg0.conf
+fi
+
+cat >> /etc/wireguard/wg0.conf <<EOF
 [Peer]
 PublicKey = $wg_pub_key
 AllowedIPs = $hosts
