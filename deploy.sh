@@ -1,10 +1,13 @@
-#! /usr/bin/env nix-shell
-#! nix-shell -i bash -p bash python3 openssh sshpass wireguard-tools
+#! /usr/bin/env bash
 
 # openbsd-vpn
 # by quarterstar
 # https://github.com/quarterstar/openbsd-vpn
 # MIT License
+
+if command -v nix-shell >/dev/null 2>&1 && [[ -f shell.nix ]]; then
+    exec nix-shell --pure --run "$0 $*"
+fi
 
 wait_for_ssh() {
     local ip=$1
