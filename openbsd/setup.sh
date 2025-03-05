@@ -46,7 +46,7 @@ cat > /etc/pf.conf <<EOF
 # Allow inbound traffic on Wireguard interface
 pass in on wg0
 # Allow all UDP traffic on Wireguard port
-pass in inet proto udp from any to any port 51820
+pass in inet proto udp from any to any port $port
 # Set up a NAT for Wireguard
 pass out on egress inet from (wg0:network) nat-to (vio0:0)
 EOF
