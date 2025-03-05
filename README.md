@@ -89,6 +89,7 @@ PUBLIC_KEY=<public_key_of_new_instance>
 - `<plan>`: the plan to be used for Vultr cloud instances.
 - `<label>`: the label to be used for the cloud instances.
 - `<port>`: the port that should be used by the WireGuard server. (Default: `51820`)
+- `<mtu>`: the Maximum Transmission Unit that should be allowed by the WireGuard server.
 - `<listen-address>`: the address the WireGuard server should listen to.
 - `<hosts>`: set of comma-separated internal IP addresses of the hosts that should be allowed access to the WireGuard server. (Default: `10.1.0.2/32`)
 - `<locations>`: pool of comma-separated candidates for regions the backend should pick from for the instance deployment.
@@ -106,9 +107,16 @@ PUBLIC_KEY=<public_key_of_new_instance>
     --label obsdvpn \
     --listen-address 10.1.0.1 \
     --port 51820 \
+    --mtu 1500 \
     --hosts 10.1.0.2/32,192.168.2.0/24 \
-    --locations ewr,lax,ord,ams,syd,sgp 
+    --locations ewr,lax,ord,ams,syd,sgp \
 ```
+
+## Troubleshooting
+
+### Cannot connect to certain websites / Cannot connect to websites at all.
+
+The issue is most likely related to your MTU. Usually, it is in the 1400-1500 range. Consider increasing or decreasing it until a certain value gives improved results. Look at [Additional Suggestions](#additional) for more information.
 
 ## Additional Suggestions
 

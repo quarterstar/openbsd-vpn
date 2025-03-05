@@ -39,6 +39,7 @@ listen_address="10.1.0.1"
 hosts="10.1.0.2/32"
 port=51820
 locations=""
+mtu=""
 
 # Required options
 provider=""
@@ -49,7 +50,7 @@ label=""
 
 # Function to display usage
 usage() {
-  echo "Usage: $0 --provider <provider> --wg-pub-key <wg-pub-key> --api-key <api-key> --plan <plan> --label <label> [--listen-address <address>] [--hosts <hosts>] [--locations <locations>] [--port <port>]"
+  echo "Usage: $0 --provider <provider> --wg-pub-key <wg-pub-key> --api-key <api-key> --plan <plan> --label <label> [--listen-address <address>] [--hosts <hosts>] [--locations <locations>] [--port <port>] [--mtu <mtu>]"
   exit 1
 }
 
@@ -128,6 +129,15 @@ while [[ $# -gt 0 ]]; do
         usage
       fi
       ;;
+    --mtu)
+      if [[ -n $2 ]]; then
+        mtu="$2"
+        shift 2
+      else
+        echo "Error: --mtu requires a valid number."
+        usage
+      fi
+      ;;
     --port)
       if [[ -n $2 && $2 =~ ^[0-9]+$ ]]; then
         port="$2"
@@ -183,7 +193,7 @@ key_password="PASSWORD"
 password="${!key_password}"
 
 sshpass -p "$password" scp -o StrictHostKeyChecking=no ./openbsd/setup.sh root@${ip}:/root
-sshpass -p "$password" ssh -o StrictHostKeyChecking=no root@${ip} "chmod +x /root/setup.sh && /root/setup.sh ${wg_pub_key} ${port} ${hosts}"
+sshpass -p "$password" ssh -o StrictHostKeyChecking=no root@${ip} "chmod +x /root/setup.sh && /root/setup.sh ${wg_pub_key} ${port} ${hosts} ${mtu}"
 
 echo "Finished deployment of new server."
 
