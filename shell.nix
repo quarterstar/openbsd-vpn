@@ -7,5 +7,6 @@ pkgs.mkShell {
     openssh
     sshpass
     wireguard-tools
+    netcat
   ];
 }
